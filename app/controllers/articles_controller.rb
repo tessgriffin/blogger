@@ -1,4 +1,5 @@
 class ArticlesController < ApplicationController
+  include ArticlesHelper
 
   def index
     @articles = Article.all
@@ -6,6 +7,8 @@ class ArticlesController < ApplicationController
 
   def show
     @article = Article.find(params[:id])
+    @comment = Comment.new
+    @comment.article_id = @article.id
   end
 
   def new
@@ -41,11 +44,5 @@ class ArticlesController < ApplicationController
     @article.destroy
     flash.notice = "Article deleted!"
     redirect_to articles_path
-  end
-
-  private
-
-  def article_params
-    params.require(:article).permit(:title, :body)
   end
 end
